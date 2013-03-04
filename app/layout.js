@@ -21,7 +21,6 @@ define([
         _this.initializePages();
       });
 
-      return this;
     },
 
     active_index: {},

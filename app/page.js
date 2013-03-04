@@ -26,7 +26,7 @@ define([
     },
 
     onHide: function(){
-      this.$el.removeClass('ui-active');
+      this.$el.removeClass('ui-active').addClass('ui-hidden');
     },
 
     show: function( time, offset ){
@@ -35,11 +35,11 @@ define([
       var
         dfd = new $.Deferred(),
         current = $('.ui-active').index(),
-        speed   = time || ( current === this.index ? 600 : 600 * this.index );
+        speed   = time || ( current === this.index ? 600 : 1000 * (this.index / 3) );
 
       $('html,body')
         .stop()
-        .animate({ scrollTop: this.$el.data('height') + offset }, speed, 'easeInOutExpo', function(){
+        .animate({ scrollTop: this.$el.data('height') + offset }, speed, 'linear', function(){
           dfd.resolve();
         });
 
