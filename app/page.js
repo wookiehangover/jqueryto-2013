@@ -5,28 +5,35 @@ define([
 
   return Backbone.View.extend({
 
-    initialize: function( params, index  ){
-      this.index  = index;
-      this.id     = this.$el.attr('id');
-      this.parent = params.parent;
+    initialize: function( params  ){
+      this.index  = params.index;
+      this.app = params.app;
+
+      this.id = this.el.id;
 
       this.route = this.$el.data('route') || this.id;
 
       this.bind( 'show', this.onShow, this );
       this.bind( 'hide', this.onHide, this );
+
+      this.render();
     },
 
     onShow: function(){
       this.$el.addClass('ui-active');
       this.navigate();
       this.$el.prev().removeClass('ui-hidden');
-      this.$el.prev().prev().addClass('ui-hidden');
       this.$el.next().removeClass('ui-hidden');
-      this.$el.next().next().addClass('ui-hidden');
     },
 
     onHide: function(){
-      this.$el.removeClass('ui-active').addClass('ui-hidden');
+      console.time('onHide');
+      this.$el.prop('className', 'ui-hidden');
+      console.timeEnd('onHide');
+    },
+
+    render: function(){
+      this.$el.css('z-index', 200 - this.index);
     },
 
     show: function( time, offset ){
@@ -39,7 +46,7 @@ define([
 
       $('html,body')
         .stop()
-        .animate({ scrollTop: this.$el.data('height') + offset }, speed, 'linear', function(){
+        .animate({ scrollTop: this.height + offset }, speed, function(){
           dfd.resolve();
         });
 
@@ -49,7 +56,7 @@ define([
     navigate: function(){
 
       if( $('html,body').is(':animated') === false ){
-        Boulderjs.router.navigate( this.route, false );
+        this.app.router.navigate( this.route, false );
       }
 
       return this;

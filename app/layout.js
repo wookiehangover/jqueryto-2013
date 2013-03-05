@@ -1,12 +1,14 @@
-define([
-  'underscore',
-  'backbone',
-  'page',
-  'transform',
-  'easing'
-], function( _, Backbone, Page ){
+define(function(require, exports, module ){
 
-  return Backbone.View.extend({
+  var _        = require('underscore');
+  var Backbone = require('backbone');
+  var Page     = require('page');
+  var Router   = require('router');
+
+  require('transform');
+  require('easing');
+
+  module.exports = Backbone.View.extend({
 
     el: $('#main'),
 
@@ -15,12 +17,13 @@ define([
       this.scroll();
       this.keyboard();
 
+      this.router = new Router({ app: this });
+
       var _this = this;
 
       $(window).on( 'resize', function(){
         _this.initializePages();
       });
-
     },
 
     active_index: {},
@@ -37,29 +40,23 @@ define([
 
     initializePages: function(){
       var
-        _height = 0,
+        height = 0,
         _this   = this;
 
       this.$('article').each(function(i, elem){
-        var _elem = $(elem);
+        var $elem = $(elem);
 
-        _this.pages[ elem.id ] = new Page({
-          el: _elem,
-          parent: _this
-        }, i);
+        var page = _this.pages[ elem.id ] = new Page({
+          el: $elem,
+          app: _this,
+          index: i
+        });
 
-        _this.pages[ elem.id ].render();
-
-        _elem
-          .css('z-index', 200 - i )
-          .data('height', _height);
-
-        _height += _elem.height();
-
+        page.height = height;
+        height += $elem.height();
       });
 
-      this.$el.css('height', _height);
-
+      this.$el.css('height', height);
     },
 
     scroll: function(){
@@ -69,32 +66,32 @@ define([
 
       var prevPosition = _window.scrollTop();
 
-      _window.on('scroll', _.throttle(function(e){
+      _window.on('scroll', function(e){
         var
           _active       = _this.$('.ui-active'),
           scroll_pos    = _window.scrollTop(),
-          active_height = _active.data('height'),
+          active_height = _this.pages[ _active[0].id ].height,
           scroll_offset = scroll_pos - active_height;
 
         _this.active_index = _active.index();
 
         // Scroll the active page and make sure the page below is visible
         _active
-          .css({ 'translateY': '-'+ scroll_offset });
+          .css({ 'translateY': - scroll_offset });
 
         // When scrolling to the top of the page, activate sections in reverse
         // order
         if( scroll_offset < 0  ) {
-          return _this.setActive( 'prev' );
+          return _this.setActive('prev');
         }
 
         // Activate the next section when the window passes the active section
         if( _active.height() - scroll_offset  <= 0 ){
-          return _this.setActive( 'next' );
+          return _this.setActive('next');
         }
 
         prevPosition = scroll_pos;
-      }, 30));
+      });
     },
 
     setActive: function( direction ){
@@ -109,8 +106,8 @@ define([
       }
 
       if( new_active.length ){
-        this.pages[ current.attr('id') ].trigger('hide');
-        this.pages[ new_active.attr('id') ].trigger('show');
+        this.pages[ current.attr('id') ].onHide();
+        this.pages[ new_active.attr('id') ].onShow();
       }
 
     },
@@ -159,7 +156,7 @@ define([
         _this.navigate('prev');
       };
 
-      function onKeydown( event ){
+      $(window).on('keydown', _.throttle( function( event ){
         if( $('html,body').is(':animated') === true )
           return;
 
@@ -169,9 +166,7 @@ define([
           key_map[ key ]();
           return false;
         }
-      }
-
-      $(window).on('keydown', _.throttle( onKeydown, 100 ) );
+      }, 100) );
     }
 
   });

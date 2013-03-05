@@ -290,25 +290,37 @@ article {
   min-height: 100%;
   background: #eaeaea;
   width: 100%;
-  display: block;
   overflow:hidden;
   position: fixed;
   top:0; left: 0;
   line-height: 1;
   text-align: center;
   text-shadow: 1px 1px 2px #888;
+  /* -webkit-transform: translateZ(0); */
 }
 
-article.ui-active { z-index: 200; display:block; }
+article.ui-active {
+  z-index: 200;
+  display:block;
+  visibility: visible;
+}
+
+article.ui-hidden {
+  display: none;
+  visibility: hidden;
+}
 
 article > img {
   width: 100%;
   display: block;
   margin: 0 auto;
   z-index: 100;
+  -webkit-transform: translateZ(0);
 }
 
-/* article:nth-of-type(2n) { background: #222; color: #eaeaea;} */
+article img[src*="gif"] {
+  -webkit-transform: translateZ(0);
+}
 
 article > pre {
   margin-left: 20%;
