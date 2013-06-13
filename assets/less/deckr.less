@@ -1,0 +1,119 @@
+@import "variables.less";
+@import "mixins.less";
+@import "fonts.less";
+@import "reset.less";
+
+html, body {
+  height: 100%;
+  font-family: 'Source Code Pro';
+}
+
+h1 {
+  font-size: 5em;
+  font-weight: lighter;
+  text-align: center;
+}
+
+h2 {
+  font-size: 3em;
+  font-weight: lighter;
+  text-align: center;
+}
+
+h3 {
+  font-size: 2.6em;
+  text-align: center;
+}
+
+article {
+  min-height: 100%;
+  background: #fff;
+  width: 100%;
+  overflow:hidden;
+  position: fixed;
+  top:0; left: 0;
+  line-height: 1;
+
+  .flexbox();
+  .box-orient(vertical);
+  .box-pack(center);
+  .box-align(center);
+
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAARElEQVQYV2P8z/Dfh5GBcQsDFKDzYeKMIAZMEpcikBqwQmTFMD46TbyJJLkRl3XI4nA3ElJMJ4WvX7/2ERUVhUcCyFkAsPQfCw+n+TYAAAAASUVORK5CYII=);
+
+  &:nth-of-type(2n){
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQYV2N89erVfzExMUYGKEDnw8TBCmCSuBSB1BA0iXQTSXIjzHh8NNyNhBTTSeHr1699REVFtyA7BwDvxSgLqoDk3QAAAABJRU5ErkJggg==);
+  }
+
+  &:last-of-type {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAANElEQVQYV2NkAIL/DP99GBkYt8BokBg6YERXhEsxXCHMBJwKibaakEkweUZsDsfqmSGgEACRMx4LxswryAAAAABJRU5ErkJggg==);
+  }
+
+  li {
+    font-size: 3em;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  img {
+    display: block;
+    width: 60%;
+  }
+
+  .fragment {
+    visibility: hidden;
+    .transition(all 200ms ease-in);
+
+    .ui-active h1&,
+    &.js-show {
+      visibility: visible;
+    }
+  }
+
+  &.ui-active {
+    z-index: 200;
+    visibility: visible;
+
+    h1, h2, h3 {}
+  }
+
+  &.ui-hidden {
+    visibility: hidden;
+  }
+
+  > pre {
+    width: 60%;
+    background: #000;
+    color: #fff;
+    font-size: 2em;
+    padding: 20px;
+  }
+
+}
+
+article .gifly-embed {
+  display: block;
+  width: 60%;
+
+  .gifly-figure {
+    float: none;
+  }
+
+  .gifly-controls {
+    bottom: none;
+    top: 5px;
+
+    a {
+      display: none;
+      &.icon-play, &.icon-pause {
+        display: block;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+

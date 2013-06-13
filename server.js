@@ -7,13 +7,9 @@ var ramrod = require('ramrod');
 var ec = ecstatic( __dirname );
 var router = ramrod();
 
-router.add("assets/*path", function(req, res){
-  ec( req, res );
-});
+router.add("assets/*path", ec);
 
-router.add("app/*path", function(req, res){
-  ec( req, res );
-});
+router.add("app/*path", ec);
 
 router.on('*', function( req, res ){
   fs.createReadStream('./index.html').pipe(res);

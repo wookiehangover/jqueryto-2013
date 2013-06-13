@@ -207,7 +207,7 @@ td { vertical-align: top; }
    ========================================================================== */
 
 
-html, body { height: 100%; font-family: 'Ubuntu Mono'; text-shadow: 1px 1px 3px #eaeaea;  }
+html, body { height: 100%; font-family: 'Alef'; text-shadow: 1px 1px 3px #eaeaea;  }
 
 h1 {
   margin: 1em auto 0;
@@ -288,7 +288,7 @@ article .right {
 
 article {
   min-height: 100%;
-  background: #eaeaea;
+  background: #fff;
   width: 100%;
   overflow:hidden;
   position: fixed;
@@ -367,7 +367,7 @@ article.ui-active h1.fragment,
 article .fragment.js-show { visibility: visible }
 
 article:nth-of-type(2n) {
-  background: #CFD6FD;
+  background: #000;
 }
 
 /* article.ui-active h1.fragment { opacity: 1; } */

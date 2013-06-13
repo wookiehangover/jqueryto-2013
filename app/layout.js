@@ -6,7 +6,6 @@ define(function(require, exports, module ){
   var Router   = require('router');
 
   require('transform');
-  require('easing');
 
   module.exports = Backbone.View.extend({
 
